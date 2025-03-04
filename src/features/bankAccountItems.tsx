@@ -3,19 +3,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { increaseBalance, decreaseBalance } from "./bankAccountSlices";
 import { RootState, AppDispatch } from "../store/store";
 
-const BankAccountItem: React.FC<{
+const BankAccountItem = ({
+  id,
+  name,
+  balance,
+}: {
   id: number;
   name: string;
   balance: number;
-}> = memo(({ id, name, balance }) => {
+}) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleIncrease = () => {
-    dispatch(increaseBalance({ id, amount: 100 })); 
+    dispatch(increaseBalance({ id, amount: 100 }));
   };
 
   const handleDecrease = () => {
-    dispatch(decreaseBalance({ id, amount: 100 })); 
+    dispatch(decreaseBalance({ id, amount: 100 }));
   };
 
   return (
@@ -26,6 +30,6 @@ const BankAccountItem: React.FC<{
       <button onClick={handleDecrease}>Decrease (-100)</button>
     </div>
   );
-});
+};
 
-export default BankAccountItem
+export default BankAccountItem;
