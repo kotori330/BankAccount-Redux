@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BankAccountsState } from "../action/types";
+import { ActionType, BankAccountsState } from "../action/types";
 
 const initialState: BankAccountsState = {
   accounts: [
@@ -12,14 +12,16 @@ const initialState: BankAccountsState = {
 };
 
 const bankAccountsSlice = createSlice({
-  name: "bankAccounts",
+  // --------------Default part---------------
+  name: "bankAccounts", // Action type -> Tránh xung đột
   initialState,
-  reducers: {
+  reducers: { // Object chứa các logical function. Mỗi function đại diện cho 1 case. Tên function sẽ là tên của ACTION CREATOR (tên action)
     increaseBalance: (
       state,
-      action: PayloadAction<{ id: number; amount: number }> // khi dùng addCase, thì action sẽ thuộc type PayLoadAction, which chứa 2 attrs là payload và type
+      action: PayloadAction<ActionType> // type PayLoadAction chứa 2 attrs là payload và type. (LƯU Ý: action là optional, nếu khai báo thì khi sử dụng action cần truyền giá trị vào)
     ) => {
-      const { id, amount } = action.payload;  // Định nghĩa giá trị được lấy từ object từ action đã khai báo bằng createAction
+      const { id, amount } = action.payload;  // Lấy các biến từ ActionType đã khai báo (Nếu không có action thì không cần thực hiện bước này)
+      // ------------Logic handle part-------------
       const account = state.accounts.find((acc) => acc.id === id); // state: Nhận vào initialState đã truyền trước đó, nhờ đó truy cập được các element bên trong
       account!.balance += amount; 
       // ! là non-null assertion -> Khi tự tin rằng account property không phải là null
@@ -30,7 +32,7 @@ const bankAccountsSlice = createSlice({
     },
     decreaseBalance: (
       state,
-      action: PayloadAction<{ id: number; amount: number }>
+      action: PayloadAction<ActionType>
     ) => {
       const { id, amount } = action.payload;
       const account = state.accounts.find((acc) => acc.id === id);

@@ -1,4 +1,4 @@
-import BankAccounts from "./features/bankAccount";
+import BankAccounts from "./component/bankAccount";
 
 const App = () => {
   return (

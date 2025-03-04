@@ -12,6 +12,11 @@ export interface BankAccountsState {
   accounts: BankAccount[];
 }
 
+export interface ActionType {
+  id: number;
+  amount: number;
+}
+
 // Define TypeScript types for the store
 export type RootState = ReturnType<typeof store.getState>; // Type for the entire state
 export type AppDispatch = typeof store.dispatch; // Type for dispatch function
