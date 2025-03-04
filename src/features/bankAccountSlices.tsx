@@ -17,11 +17,16 @@ const bankAccountsSlice = createSlice({
   reducers: {
     increaseBalance: (
       state,
-      action: PayloadAction<{ id: number; amount: number }>
+      action: PayloadAction<{ id: number; amount: number }> // khi dùng addCase, thì action sẽ thuộc type PayLoadAction, which chứa 2 attrs là payload và type
     ) => {
-      const { id, amount } = action.payload;
-      const account = state.accounts.find((acc) => acc.id === id);
-      account!.balance += amount;
+      const { id, amount } = action.payload;  // Định nghĩa giá trị được lấy từ object từ action đã khai báo bằng createAction
+      const account = state.accounts.find((acc) => acc.id === id); // state: Nhận vào initialState đã truyền trước đó, nhờ đó truy cập được các element bên trong
+      account!.balance += amount; 
+      // ! là non-null assertion -> Khi tự tin rằng account property không phải là null
+      // -----Alternative code-----
+      // if (account) {
+      //   account.balance -= amount;
+      // }
     },
     decreaseBalance: (
       state,

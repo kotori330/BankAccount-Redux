@@ -1,7 +1,7 @@
-import React, { memo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+
+import {  useDispatch } from "react-redux";
 import { increaseBalance, decreaseBalance } from "./bankAccountSlices";
-import { RootState, AppDispatch } from "../store/store";
+import { AppDispatch } from "../action/types";
 
 const BankAccountItem = ({
   id,

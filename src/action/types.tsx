@@ -1,3 +1,5 @@
+import store from "../store/store";
+
 // Define the shape of a single bank account
 export interface BankAccount {
   id: number;
@@ -9,3 +11,7 @@ export interface BankAccount {
 export interface BankAccountsState {
   accounts: BankAccount[];
 }
+
+// Define TypeScript types for the store
+export type RootState = ReturnType<typeof store.getState>; // Type for the entire state
+export type AppDispatch = typeof store.dispatch; // Type for dispatch function

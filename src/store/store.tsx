@@ -8,8 +8,6 @@ const store = configureStore({
   },
 });
 
-// Define TypeScript types for the store
-export type RootState = ReturnType<typeof store.getState>; // Type for the entire state
-export type AppDispatch = typeof store.dispatch; // Type for dispatch function
+
 
 export default store;
