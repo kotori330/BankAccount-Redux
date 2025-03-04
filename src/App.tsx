@@ -1,31 +1,13 @@
-import { RootState } from "./reducer/rootReducer";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "./store";
-import { increase, decrease } from "./action/actions";
+// src/App.tsx
 
-function App() {
-  const balance = useSelector((state: RootState) => state.balance);
-  const dispatch = useDispatch<AppDispatch>();
+import BankAccounts from './features/bankAccount';
 
-  const handleIncrease = () => {
-    dispatch(increase(100000));
-  };
-
-  const handleDecrease = () => {
-    dispatch(decrease(50000));
-  };
-
+const App = () => {
   return (
-    <>
-      <div className="flex justify-center items-center">
-        <h1>
-          Your balance: <span>{balance}$</span>
-        </h1>
-        <button onClick={handleIncrease}>+100000$</button>
-        <button onClick={handleDecrease}>-50000$</button>
-      </div>
-    </>
+    <div style={{ padding: '20px' }}>
+      <BankAccounts />
+    </div>
   );
-}
+};
 
 export default App;
