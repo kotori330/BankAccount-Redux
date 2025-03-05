@@ -7,36 +7,31 @@ const initialState: BankAccountsState = {
       id: 1,
       name: "Account 1 - Savings",
       balance: 1000,
-      owner: "Alice",
-      isEditing: false,
+      owner: "Alice"
     },
     {
       id: 2,
       name: "Account 2 - Checking",
       balance: 500,
-      owner: "Bob",
-      isEditing: false,
+      owner: "Bob"
     },
     {
       id: 3,
       name: "Account 3 - Investment",
       balance: 2000,
-      owner: "Charlie",
-      isEditing: false,
+      owner: "Charlie"
     },
     {
       id: 4,
       name: "Account 4 - Emergency",
       balance: 300,
-      owner: "David",
-      isEditing: false,
+      owner: "David"
     },
     {
       id: 5,
       name: "Account 5 - Travel",
       balance: 750,
-      owner: "Eve",
-      isEditing: false,
+      owner: "Eve"
     },
   ],
 };
@@ -66,11 +61,6 @@ const bankAccountsSlice = createSlice({
       const account = state.accounts.find((acc) => acc.id === id);
       account!.balance -= amount;
     },
-    toggleEditing: (state, action: PayloadAction<{ id: number }>) => {
-      const { id } = action.payload;
-      const account = state.accounts.find((acc) => acc.id === id);
-      account!.isEditing = !account!.isEditing;
-    },
     saveEditedName: (
       state,
       action: PayloadAction<{ id: number; newName: string }>
@@ -78,7 +68,7 @@ const bankAccountsSlice = createSlice({
       const { id, newName } = action.payload;
       const account = state.accounts.find((acc) => acc.id === id);
       account!.owner = newName;
-      account!.isEditing = !account!.isEditing;
+      // account!.isEditing = !account!.isEditing;
     },
   },
 });
@@ -87,7 +77,6 @@ const bankAccountsSlice = createSlice({
 export const {
   increaseBalance,
   decreaseBalance,
-  toggleEditing,
   saveEditedName,
 } = bankAccountsSlice.actions;
 

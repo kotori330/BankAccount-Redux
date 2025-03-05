@@ -1,8 +1,7 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   increaseBalance,
   decreaseBalance,
-  toggleEditing,
   saveEditedName,
 } from "../features/bankAccountSlices";
 import { AppDispatch } from "../action/types";
@@ -13,18 +12,20 @@ const BankAccountItem = ({
   name,
   balance,
   owner,
-  isEditing,
 }: {
   id: number;
   name: string;
   balance: number;
   owner: string;
-  isEditing: boolean;
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-  // Local state 
-  const [newName, setNewName] = useState(owner)
+  // Local state. Thực tế là chỉ nên sử dụng state từ Redux khi cần nó ở nhiều nơi. Other than that, local state is recommended
+  const [newName, setNewName] = useState(owner);
+  const [isEditing, setIsEditing] = useState(false);
 
+  const handleToggleEditing = () => {
+    setIsEditing((prev) => !prev);
+  };
   // Dispatch gửi action đến store -> cập nhật state
   const handleIncrease = () => {
     // Khi gọi hàm này, Action sinh ra '{type: 'increaseBalance', payload: { id, amount: 100 }}
@@ -34,14 +35,10 @@ const BankAccountItem = ({
   const handleDecrease = () => {
     dispatch(decreaseBalance({ id, amount: 100 }));
   };
-  // LƯU Ý: Nếu không có action thì không cần truyền giá trị
-  const handleToggleEditing = () => {
-    dispatch(toggleEditing({ id }));
-  };
-
   const handleSave = () => {
     dispatch(saveEditedName({ id, newName }));
   };
+  // LƯU Ý: Nếu không có action thì không cần truyền giá trị
 
   return (
     <div className="border border-slate-600 rounded-2xl p-4 my-4 space-y-2">
@@ -66,7 +63,10 @@ const BankAccountItem = ({
           <>
             <button
               className="hover:cursor-pointer hover:opacity-70 bg-gray-400 border border-black px-2 py-1"
-              onClick={handleSave}
+              onClick={() => {
+                handleSave();
+                handleToggleEditing();
+              }}
             >
               Save
             </button>

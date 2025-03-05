@@ -17,7 +17,6 @@ const BankAccounts = () => {
           name={account.name}
           balance={account.balance}
           owner={account.owner}
-          isEditing={account.isEditing}
         />
       ))}
     </div>
