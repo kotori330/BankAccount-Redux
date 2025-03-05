@@ -1,4 +1,3 @@
-
 import { configureStore } from "@reduxjs/toolkit";
 import bankAccountsSlice from "../features/bankAccountSlices";
 

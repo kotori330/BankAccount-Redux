@@ -2,7 +2,7 @@ import BankAccounts from "./component/bankAccount";
 
 const App = () => {
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="max-w-240 mx-auto">
       <BankAccounts />
     </div>
   );

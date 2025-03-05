@@ -1,37 +1,37 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ActionType, BankAccountsState } from "../action/types";
+import { ActionType, BankAccount, BankAccountsState } from "../action/types";
 
 const initialState: BankAccountsState = {
   accounts: [
     {
-      id: 1,
+      id: "1",
       name: "Account 1 - Savings",
       balance: 1000,
-      owner: "Alice"
+      owner: "Alice",
     },
     {
-      id: 2,
+      id: "2",
       name: "Account 2 - Checking",
       balance: 500,
-      owner: "Bob"
+      owner: "Bob",
     },
     {
-      id: 3,
+      id: "3",
       name: "Account 3 - Investment",
       balance: 2000,
-      owner: "Charlie"
+      owner: "Charlie",
     },
     {
-      id: 4,
+      id: "4",
       name: "Account 4 - Emergency",
       balance: 300,
-      owner: "David"
+      owner: "David",
     },
     {
-      id: 5,
+      id: "5",
       name: "Account 5 - Travel",
       balance: 750,
-      owner: "Eve"
+      owner: "Eve",
     },
   ],
 };
@@ -63,12 +63,19 @@ const bankAccountsSlice = createSlice({
     },
     saveEditedName: (
       state,
-      action: PayloadAction<{ id: number; newName: string }>
+      action: PayloadAction<{ id: string; newName: string }>
     ) => {
       const { id, newName } = action.payload;
       const account = state.accounts.find((acc) => acc.id === id);
       account!.owner = newName;
-      // account!.isEditing = !account!.isEditing;
+    },
+    deleteAccount: (state, action: PayloadAction<{ id: string }>) => {
+      const { id } = action.payload;
+      state.accounts = state.accounts.filter((acc) => acc.id !== id);
+    },
+    addAccount: (state, action: PayloadAction<BankAccount>) => {
+      const { id, name, balance, owner } = action.payload;
+      state.accounts.push({ id, name, balance, owner });
     },
   },
 });
@@ -77,7 +84,9 @@ const bankAccountsSlice = createSlice({
 export const {
   increaseBalance,
   decreaseBalance,
+  deleteAccount,
   saveEditedName,
+  addAccount
 } = bankAccountsSlice.actions;
 
 // Export the reducer to be used in store

@@ -2,7 +2,7 @@ import store from "../store/store";
 
 // Define the shape of a single bank account
 export interface BankAccount {
-  id: number;
+  id: string;
   name: string;
   balance: number;
   owner: string;
@@ -15,7 +15,7 @@ export interface BankAccountsState {
 }
 
 export interface ActionType {
-  id: number;
+  id: string;
   amount: number;
 }
 

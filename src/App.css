@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* Hide up down arrow in input type="number" */
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
