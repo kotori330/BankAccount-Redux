@@ -10,13 +10,14 @@ const BankAccounts = () => {
   );
   return (
     <div>
-      <h1>Bank Accounts</h1>
       {accounts.map((account) => (
         <BankAccountItem
           key={account.id}
           id={account.id}
           name={account.name}
           balance={account.balance}
+          owner={account.owner}
+          isEditing={account.isEditing}
         />
       ))}
     </div>

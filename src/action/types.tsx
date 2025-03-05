@@ -5,6 +5,8 @@ export interface BankAccount {
   id: number;
   name: string;
   balance: number;
+  owner: string;
+  isEditing: boolean
 }
 
 // Define the state structure
