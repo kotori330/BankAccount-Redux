@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import store from "../store/store";
 
 // Define the shape of a single bank account
@@ -17,6 +18,11 @@ export interface BankAccountsState {
 export interface ActionType {
   id: string;
   amount: number;
+}
+
+export interface SearchBarProps {
+  accounts: BankAccount[]
+  setDisplayAccounts: Dispatch<SetStateAction<BankAccount[]>>;
 }
 
 // Define TypeScript types for the store

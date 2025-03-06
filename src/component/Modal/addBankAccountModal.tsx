@@ -1,8 +1,9 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useCallback, useState } from "react";
 import { AppDispatch, BankAccount } from "../../action/types";
 import { useDispatch } from "react-redux";
 import { addAccount } from "../../features/bankAccountSlices";
 import { v4 as uuidv4 } from 'uuid';
+import SubmitBtn from "../Button/SubmitBtn";
 
 const AddBankAccountModal = ({ toggleModal }: { toggleModal: () => void }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -23,23 +24,26 @@ const AddBankAccountModal = ({ toggleModal }: { toggleModal: () => void }) => {
     balance: 0,
   });
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    const newItem = {
-      id: uuidv4(),
-      name: formData.name,
-      owner: formData.owner,
-      balance: formData.balance,
-    };
-    dispatch(addAccount(newItem));
-    toggleModal();
-  };
+  // useCallback component so that dispatch won't unnecessarily call when SubmitBtn re-dender 
+  const handleSubmit = useCallback(
+    (e: FormEvent) => {
+      e.preventDefault();
+      const newItem = {
+        id: uuidv4(),
+        name: formData.name,
+        owner: formData.owner,
+        balance: formData.balance,
+      };
+      dispatch(addAccount(newItem));
+      toggleModal();
+    }, [dispatch, formData, toggleModal]);
+  
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: name === "balance" ? Number(value) : value,
+      [name]: name === "balance" ? Number(value) : value, // Number(value) converts input into number cuz <input type="number"> still return a string.
     }));
   };
 
@@ -50,27 +54,25 @@ const AddBankAccountModal = ({ toggleModal }: { toggleModal: () => void }) => {
           <h1 className="font-bold text-3xl text-center">Add Bank Account</h1>
 
           <form action="">
-            {addBankAccountFields.map((item) => {
-              return (
-                <div className="relative" key={item.name}>
-                  <label htmlFor={item.name} className="text-2xl font-bold">
-                    {item.label}
-                  </label>
-                  <input
-                    type={item.type}
-                    name={item.name}
-                    value={formData[item.name] || ""} // if initial value = 0 => "" instead
-                    onChange={handleChange}
-                    className="w-full text-xl border border-slate-400 p-4 rounded-2xl mt-4 mb-10"
-                  />
-                  {item.name === "balance" && (
-                    <span className="absolute right-4 top-20 transform -translate-y-1/2 text-xl">
-                      $
-                    </span>
-                  )}
-                </div>
-              );
-            })}
+            {addBankAccountFields.map((item) => (
+              <div className="relative" key={item.name}>
+                <label htmlFor={item.name} className="text-2xl font-bold">
+                  {item.label}
+                </label>
+                <input
+                  type={item.type}
+                  name={item.name}
+                  // formData[item.name]: BRACKET NOTATION. e.g. formData["name"] === formData.name
+                  value={formData[item.name] || ""} // if initial value = 0 => "" instead
+                  onChange={handleChange}
+                  className="w-full text-xl border border-slate-400 p-4 rounded-2xl mt-4 mb-10" />
+                {item.name === "balance" && (
+                  <span className="absolute right-4 top-20 transform -translate-y-1/2 text-xl">
+                    $
+                  </span>
+                )}
+              </div>
+            ))}
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
@@ -79,13 +81,7 @@ const AddBankAccountModal = ({ toggleModal }: { toggleModal: () => void }) => {
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                className="bg-blue-300/80 px-4 py-2 rounded-2xl mx-2 border border-blue-400/40 hover:cursor-pointer hover:opacity-70 text-3xl w-full"
-                onClick={handleSubmit}
-              >
-                Submit
-              </button>
+              <SubmitBtn handleSubmit={handleSubmit}/>
             </div>
           </form>
         </div>
